@@ -1,0 +1,5 @@
+package com.universidad.confudes.certificados;
+
+public class ControladorCertificados {
+    
+}
