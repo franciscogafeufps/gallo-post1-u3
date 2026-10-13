@@ -12,12 +12,11 @@ class EmisionCertificadoTest {
         var firma = new FirmaDigitalService();
         var correo = new EnvioCorreoService();
 
-        // Instanciamos tu solución Facade de la Necesidad 2
-        ServicioCertificadosFacade colaborador = new ServicioCertificadosFacade(validador, generador, firma, correo);
+        ServicioCertificados colaborador = new ServicioCertificadosFacade(validador, generador, firma, correo);
 
-        // La operación simple expuesta debe ejecutarse sin lanzar excepciones
+        // La operación simple expuesta por su colaborador debe ejecutarse sin lanzar excepciones
         assertDoesNotThrow(() -> {
-            colaborador.emitirYEnviar("EVT-001", "PART-123", "Ana Ríos", "ana@correo.com");
+            colaborador.emitir(new SolicitudCertificado("EVT-001", "PART-123", "Ana Ríos", "ana@correo.com"));
         });
     }
 

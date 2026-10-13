@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 @RequestMapping("/api/certificados")
 public class ControladorCertificados {
 
-    private final ServicioCertificadosFacade servicioCertificados;
+    private final ServicioCertificados servicioCertificados;
 
-    public ControladorCertificados(ServicioCertificadosFacade servicioCertificados) {
+    public ControladorCertificados(ServicioCertificados servicioCertificados) {
         this.servicioCertificados = servicioCertificados;
     }
 
@@ -18,10 +18,11 @@ public class ControladorCertificados {
                                          @PathVariable String participanteId,
                                          @RequestParam String nombre,
                                          @RequestParam String correoDestino) {
-        boolean exito = servicioCertificados.emitirYEnviar(eventoId, participanteId, nombre, correoDestino);
-        if (!exito) {
+        try {
+            servicioCertificados.emitir(new SolicitudCertificado(eventoId, participanteId, nombre, correoDestino));
+            return ResponseEntity.ok("Certificado emitido y enviado");
+        } catch (IllegalStateException e) {
             return ResponseEntity.status(403).body("Asistencia insuficiente");
         }
-        return ResponseEntity.ok("Certificado emitido y enviado");
     }
 }
